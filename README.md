@@ -96,12 +96,17 @@
 - request:
 
 ```
+{
+    
+}
 ```
 
 return:
 
 ```
-  
+{
+    
+}
 ```
 
 ### teacher
@@ -155,6 +160,7 @@ return:
 
 ``` 
   {
+    'name':string //老师姓名
   
   }
 ```
