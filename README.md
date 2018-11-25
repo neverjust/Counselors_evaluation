@@ -1,5 +1,4 @@
 
-
 # 辅导员评测后台接口文档
 
 - 无特别说明，API返回值及前端传递的值均为json格式
@@ -14,8 +13,7 @@
 - HTTP METHOD: POST
 - url:   /user/login
 - request:
-
-- ``` ss 
+```
   {
       'studentId':string, // 学号
       'password':string,  // 密码
@@ -23,14 +21,13 @@
   ```
 
 - return:
-
-  ```json
+```
   {
       'date':string,   	 // 无数据
       'errorCode':string,  // 状态码
       'errorMsg':string    // 错误信息
   }
-  ```
+```
 
 ### store
 
@@ -42,7 +39,7 @@
 
 - request:
 
-  - ```ss 
+ ``` 
     {
         'ques_1':float,
         'ques_2':float,
@@ -54,17 +51,17 @@
         'ques_8':float,
         'ques_9':float
     }
-    ```
+```
 
 -  return:
 
-  - ```ss 
+```
     {
     'date':string,   	 // 无数据
     'errorCode':string,  // 状态码
     'errorMsg':string    // 错误信息
     }
-    ```
+ ```
 
 ## Admin
 
@@ -77,20 +74,20 @@
 - url:   /admin/teachers
 - request:
 
-- ```ss 
+```
   {
   }
-  ```
+```
 
 - return:
 
-  ```json
+```
    {
       'date':array,   	 // 所有辅导员数据
       'errorCode':string,  // 状态码
       'errorMsg':string    // 错误信息
   }
-  ```
+```
 
 ### download_all
 
@@ -99,17 +96,14 @@
 - url:   /admin/download_all
 - request:
 
-- ```ss 
+```
+```
+
+return:
+
+```
   
-  ```
-
-- return:
-
-  ```json
-  
-  ```
-
-### 
+```
 
 ### teacher
 
@@ -118,15 +112,15 @@
 - url:   /admin/teachers
 - request:
 
-- ```ss 
+```
   {
   	'name':string             // 老师姓名
   }
-  ```
+```
 
 - return:
 
-  ```json
+  ```
   {
       'date':array,  
       {
@@ -160,21 +154,17 @@
 - url:   /admin/download_one
 - request:
 
-- ```ss 
+``` 
   {
   }
-  ```
+```
 
 - return:
 
-  ```json
+```
   {
   }
-  ```
-
-### 
-
-### 
+```
 
 
 
