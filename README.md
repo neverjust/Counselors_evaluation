@@ -10,19 +10,41 @@
 
 - 功能：学生登录
 - HTTP METHOD: POST
-- url:   /user/login
+- url:   http://api.com/user/login
 - request:
 ```
   {
       'studentId':string, // 学号
       'password':string,  // 密码
   }
-  ```
+```
 
 - return:
 ```
   {
       'date':string,   	 // 无数据
+      'errorCode':string,  // 状态码
+      'errorMsg':string    // 错误信息
+  }
+```
+
+### remains
+
+- 功能：学生登录
+- HTTP METHOD: GET
+- url:   http://api.com/user/remains
+- request:
+
+```
+  {
+  }
+```
+
+- return:
+
+```
+  {
+      'date':string,   	 // 剩余老师
       'errorCode':string,  // 状态码
       'errorMsg':string    // 错误信息
   }
@@ -34,7 +56,7 @@
 
 - HTTP METHOD: POST
 
-- url:   /user/store
+- url:   http://api.com/user/store
 
 - request:
 
@@ -50,7 +72,7 @@
         'ques_8':float,
         'ques_9':float
     }
-```
+ ```
 
 -  return:
 
@@ -60,7 +82,7 @@
     'errorCode':string,  // 状态码
     'errorMsg':string    // 错误信息
     }
- ```
+```
 
 ## Admin
 
@@ -70,7 +92,7 @@
 
 - 功能：查看所有辅导员数据
 - HTTP METHOD: GET
-- url:   /admin/teachers
+- url:   http://api.com/admin/teachers
 - request:
 
 ```
@@ -92,7 +114,7 @@
 
 - 功能：下载所有辅导员数据
 - HTTP METHOD: GET
-- url:   /admin/download_all
+- url:   http://api.com/admin/download_all
 - request:
 
 ```
@@ -113,7 +135,7 @@ return:
 
 - 功能：查看所有辅导员数据
 - HTTP METHOD: POST
-- url:   /admin/teachers
+- url:   http://api.com/admin/teachers
 - request:
 
 ```
