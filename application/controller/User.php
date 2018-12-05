@@ -12,7 +12,7 @@ namespace app\controller;
 use app\model\Stu as StuModel;
 use app\model\Teacher as TeacherModel;
 use think\Controller;
-use Ladp;
+use Ldap;
 
 
 class User extends Controller
@@ -34,11 +34,11 @@ class User extends Controller
             return msg('',101,'参数不完全');
         }
 
-        if ($_POST['studentId'] == "admin" && $_POST['password'] = "stuhome") {
+        if ($_POST['studentId'] == "admin" && $_POST['password'] == "stuhome") {
             $_SESSION['admin'] = 'admin';
             return msg('',7,'');
         }
-        $labp = new Ladp($_POST['studentId'],$_POST['password']); //传入用户名和密码返回
+        $labp = new Ldap($_POST['studentId'],$_POST['password']); //传入用户名和密码返回
         $res = $labp->run();
         if ($res['errcode']) {
             $result = $this->Stumodel->where('name',$res['name'])->find(); //认证成功返回
@@ -133,6 +133,7 @@ class User extends Controller
 
         return msg('',0,'');
     }
+
 }
 
 
