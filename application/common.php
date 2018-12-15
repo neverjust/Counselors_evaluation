@@ -63,6 +63,9 @@ function question($num)
 		case 9:
 			return "妥善协调同学关系，及时化解各种矛盾";
 			break;
+		case 10:
+			return "总体评价";
+			break;
 		
 		default:
 			return "程序错误";

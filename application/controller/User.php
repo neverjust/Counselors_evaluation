@@ -1,6 +1,6 @@
 <?php
 
-/** 
+/**
 * 用户模块 controller
 *
 * @author      星辰后端 17级 卞光贤
@@ -8,6 +8,12 @@
 */
 
 namespace app\controller;
+
+
+header('Access-Control-Allow-Origin:http://localhost:5000');
+header('Access-Control-Allow-Credentials: true');
+header('Access-Control-Allow-Methods:POST,GET');
+header('Access-Control-Allow-Headers:DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type');
 
 use app\model\Stu as StuModel;
 use app\model\Teacher as TeacherModel;
@@ -26,10 +32,11 @@ class User extends Controller
 
     public function login()
     {
-        if(isset($_SESSION['name']) || isset($_SESSION['admin'])) {
+        if(isset($_SESSION['name'])) {
             return msg('',1,'该用户已经登录');
         }
-
+    if(isset($_SESSION['admin']))
+        return msg('',7,'');
         if (!isset($_POST['studentId']) || !isset($_POST['password'])) {
             return msg('',101,'参数不完全');
         }
@@ -55,6 +62,20 @@ class User extends Controller
         else {
             return msg("",6,$res['errmsg']);
         }
+    }
+    public function check()
+    {
+        if(isset($_SESSION['name']))
+            return msg('',1,'该用户已经登录');
+        elseif(isset($_SESSION['admin']))
+            return msg('',7,'该管理员已登录');
+        else
+            return msg('',0,'未登录');
+    }
+
+    public function logout()
+    {
+        session_destroy();
     }
 
     public function remains()
@@ -112,7 +133,7 @@ class User extends Controller
             return msg('',100,'查无此辅导员');
         }
         $ques_all = 0;
-        for ($i=1; $i < 10; $i++) { 
+        for ($i=1; $i <= 10; $i++) {
             if (!isset($_POST["ques_$i"])) {
                 return msg('',101,'参数不完全');
             }
@@ -120,7 +141,7 @@ class User extends Controller
             $ques_all+=$_POST["ques_$i"];
         }
 
-        $ques_all = round($ques_all/9,2);
+        $ques_all = round($ques_all/10,2);
         $teacher["ques_all"] = round(($teacher["ques_all"]*$teacher['finished']+$ques_all)/($teacher['finished']+1),2);
         $teacher['finished']+=1;
         $teacher['unfinished']-=1;
@@ -130,10 +151,6 @@ class User extends Controller
         if (!$result) {
             return msg('',100,'服务器错误');
         }
-
         return msg('',0,'');
     }
-
 }
-
-

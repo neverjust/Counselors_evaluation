@@ -1,6 +1,6 @@
 <?php
 
-/** 
+/**
 * 管理员模块 controller
 *
 * @author      星辰后端 17级 卞光贤
@@ -9,6 +9,10 @@
 
 
 namespace app\controller;
+header('Access-Control-Allow-Origin:http://localhost:5000');
+header('Access-Control-Allow-Credentials: true');
+header('Access-Control-Allow-Methods:POST,GET');
+header('Access-Control-Allow-Headers:DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type');
 
 use app\model\Stu as StuModel;
 use app\model\Teacher as TeacherModel;
@@ -29,6 +33,7 @@ class Admin extends Controller
 
     public function teacher()
     {
+
         if(!isset($_SESSION['admin'])) {
             return msg('',2,'非法操作或未登录');
         }
@@ -46,8 +51,8 @@ class Admin extends Controller
         }
 
         $questions = array();
-
-        for ($i=1; $i < 10 ; $i++) { 
+    $questions['ques_all'] = $teacher['ques_all'];
+        for ($i=1; $i <= 10 ; $i++) {
             $questions["ques_$i"] = $teacher["ques_$i"];
         }
 
@@ -90,7 +95,7 @@ class Admin extends Controller
         }
         $objPHPExcel->getActiveSheet()->mergeCells('A1:K1');
         $objPHPExcel->getActiveSheet()->getDefaultStyle()->getFont()->setSize(16);
-        $objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setSize(30); 
+        $objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setSize(30);
         $objPHPExcel->getActiveSheet()->getStyle('A1:E1')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(80);
         $objPHPExcel->getDefaultStyle()->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
@@ -138,13 +143,13 @@ class Admin extends Controller
             $objPHPExcel->getActiveSheet()->getColumnDimension($i)->setWidth(15);
         }
         $objPHPExcel->getActiveSheet()->mergeCells("A1:J1");
-        for ($i=2; $i < 13; $i++) { 
+        for ($i=2; $i <= 13; $i++) {
             $objPHPExcel->getActiveSheet()->mergeCells("A$i:I$i");
         }
-        $objPHPExcel->getActiveSheet()->mergeCells("B13:J13");
+        $objPHPExcel->getActiveSheet()->mergeCells("B14:J14");
         $objPHPExcel->getActiveSheet()->getDefaultStyle()->getFont()->setSize(16);
         $objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setSize(30);
-        $objPHPExcel->getActiveSheet()->getStyle('A2:E2')->getFont()->setSize(25); 
+        $objPHPExcel->getActiveSheet()->getStyle('A2:E2')->getFont()->setSize(25);
         $objPHPExcel->getActiveSheet()->getStyle('A2:E2')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle('A1:E1')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(80);
@@ -153,22 +158,21 @@ class Admin extends Controller
         $objPHPExcel->getActiveSheet()->getStyle('A1')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle('A2')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle('A1')->getAlignment()->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('B13')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_JUSTIFY);
+        $objPHPExcel->getActiveSheet()->getStyle('B14')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_JUSTIFY);
         $objPHPExcel->getActiveSheet()->setCellValue('A1', "辅导员$name 评测结果统计");
         $objPHPExcel->getActiveSheet()->setCellValue('A2', "分项题目");
         $objPHPExcel->getActiveSheet()->setCellValue('J2', "题目平均分");
-        $objPHPExcel->getActiveSheet()->setCellValue('A12', "总平均分");
-        $objPHPExcel->getActiveSheet()->setCellValue('J12', $teacher['ques_all']);
+        $objPHPExcel->getActiveSheet()->setCellValue('A13', "总平均分");
+        $objPHPExcel->getActiveSheet()->setCellValue('J13', $teacher['ques_all']);
         $stu_names = implode("、", $students);
-        $objPHPExcel->getActiveSheet()->setCellValue('A4', "未完成同学：$stu_names");
-        for ($i=3; $i < 12; $i++) { 
+        for ($i=3; $i <= 12; $i++) {
             $pro = $i-2;
             $point = $teacher["ques_$pro"];
             $objPHPExcel->getActiveSheet()->setCellValue("A$i",question($pro));
             $objPHPExcel->getActiveSheet()->setCellValue("J$i",$point);
         }
-        $objPHPExcel->getActiveSheet()->setCellValue("A13","未评测学生:");
-        $objPHPExcel->getActiveSheet()->setCellValue("B13",$stu_names);
+        $objPHPExcel->getActiveSheet()->setCellValue("A14","未评测学生:");
+        $objPHPExcel->getActiveSheet()->setCellValue("B14",$stu_names);
 
 
         $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
@@ -190,5 +194,3 @@ class Admin extends Controller
         header('Pragma: public'); // HTTP/1.012
     }
 }
-
-
