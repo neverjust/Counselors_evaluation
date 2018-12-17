@@ -19,6 +19,7 @@ use app\model\Stu as StuModel;
 use app\model\Teacher as TeacherModel;
 use think\Controller;
 use Ldap;
+use UestcApi;       
 
 
 class User extends Controller
@@ -45,22 +46,22 @@ class User extends Controller
             $_SESSION['admin'] = 'admin';
             return msg('',7,'');
         }
-        $labp = new Ldap($_POST['studentId'],$_POST['password']); //传入用户名和密码返回
-        $res = $labp->run();
-        if ($res['errcode']) {
-            $result = $this->Stumodel->where('name',$res['name'])->find(); //认证成功返回
+        $studentInfo = new UestcApi($_POST['studentId'],$_POST['password']);//传入用户名和密码返回
+        $res = $studentInfo->getAuth();
+        if ($res) {
+            $result = $this->Stumodel->where('stu_id',$_POST['studentId'])->find(); //认证成功返回
             if (!$result) {
                return msg("",10,"查无此人");
             }
-            $_SESSION['name'] = $res['name'];
+            $_SESSION['name'] = $result['name'];
             $data = [
-                'stu_name'      => $res['name'],
+                'stu_name'      => $result['name'],
                 'teacher_name'  => $result['teacher_name']
             ];
             return msg($data,0,"");
         }
         else {
-            return msg("",6,$res['errmsg']);
+            return msg("",6,"账号密码错误");
         }
     }
     public function check()
@@ -137,6 +138,7 @@ class User extends Controller
             if (!isset($_POST["ques_$i"])) {
                 return msg('',101,'参数不完全');
             }
+            $student["ques_$i"] = $_POST["ques_$i"];
             $teacher["ques_$i"] = round(($teacher["ques_$i"]*$teacher['finished']+$_POST["ques_$i"])/($teacher['finished']+1),2);
             $ques_all+=$_POST["ques_$i"];
         }
