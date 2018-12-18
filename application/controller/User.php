@@ -10,8 +10,6 @@
 namespace app\controller;
 
 
-header('Access-Control-Allow-Origin:http://localhost:5000');
-header('Access-Control-Allow-Credentials: true');
 header('Access-Control-Allow-Methods:POST,GET');
 header('Access-Control-Allow-Headers:DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type');
 
@@ -42,7 +40,7 @@ class User extends Controller
             return msg('',101,'参数不完全');
         }
 
-        if ($_POST['studentId'] == "admin" && $_POST['password'] == "stuhome") {
+        if ($_POST['studentId'] == "admin" && sha1($_POST['password']) == "028a5131a265ee674d5d29f3df90374bc65e887c" ) {
             $_SESSION['admin'] = 'admin';
             return msg('',7,'');
         }

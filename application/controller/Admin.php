@@ -9,8 +9,6 @@
 
 
 namespace app\controller;
-header('Access-Control-Allow-Origin:http://localhost:5000');
-header('Access-Control-Allow-Credentials: true');
 header('Access-Control-Allow-Methods:POST,GET');
 header('Access-Control-Allow-Headers:DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type');
 
