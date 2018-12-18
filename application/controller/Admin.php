@@ -16,7 +16,12 @@ use app\model\Stu as StuModel;
 use app\model\Teacher as TeacherModel;
 use think\Controller;
 use think\Loader;
-
+use PHPExcel;
+use PHPExcel_IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use Db;
 
 
 class Admin extends Controller
@@ -26,7 +31,7 @@ class Admin extends Controller
         session_start();
         $this->Stumodel = new StuModel();
         $this->Teachermodel = new TeacherModel();
-        $this->Excel = new \PHPExcel();
+        $this->Excel = new PHPExcel();
     }
 
     public function teacher()
@@ -85,7 +90,7 @@ class Admin extends Controller
         $teachers = $this->Teachermodel->select();
         $this->download_header($filename);
 
-        $objPHPExcel = new \PHPExcel();
+        $objPHPExcel = new PHPExcel();
 
 
         for ($i="A"; $i < "Z" ; $i++) {
@@ -131,7 +136,7 @@ class Admin extends Controller
         $teacher = $this->Teachermodel->where('name',$name)->find();
         $this->download_header($filename);
 
-        $objPHPExcel = new \PHPExcel();
+        $objPHPExcel = new PHPExcel();
         if (!$teacher) {
             return msg("",9,"查无此辅导员");
         }
