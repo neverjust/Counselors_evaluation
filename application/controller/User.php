@@ -31,7 +31,7 @@ class User extends Controller
     {
         $studentInfo = new Ldap($_POST['studentId'],$_POST['password']);
         $res = $studentInfo->run();
-        var_dump($res)；
+        var_dump($res);
     }
 
     public function login()
