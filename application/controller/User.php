@@ -27,6 +27,12 @@ class User extends Controller
         $this->Stumodel = new StuModel();
         $this->Teachermodel = new TeacherModel();
     }
+    public function test()
+    {
+        $studentInfo = new Ldap($_POST['studentId'],$_POST['password']);
+        $res = $studentInfo->run();
+        var_dump($res)
+    }
 
     public function login()
     {
@@ -62,6 +68,7 @@ class User extends Controller
             return msg("",6,"账号密码错误");
         }
     }
+
     public function check()
     {
         if(!empty($_SESSION['name']))
@@ -78,6 +85,8 @@ class User extends Controller
         unset($_SESSION['name']);
         unset($_SESSION['admin']);
     }
+
+
 
     public function remains()
     {
