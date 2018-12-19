@@ -23,7 +23,7 @@ class Index extends Controller
         $this->Stumodel = new StuModel();
         $this->Teachermodel = new TeacherModel();
     }
-    public function teacher()
+    private function teacher()
     {
     	$file_path = "static/all.xlsx";
     	$ext = strtolower(pathinfo($file_path,PATHINFO_EXTENSION));
@@ -46,7 +46,7 @@ class Index extends Controller
         }
     }
 
-    public function stu()
+    private function stu()
     {
     	$file_path = "static/stu.xlsx";
     	$ext = strtolower(pathinfo($file_path,PATHINFO_EXTENSION));

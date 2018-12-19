@@ -135,7 +135,7 @@ class Admin extends Controller
         $teacher = $this->Teachermodel->where('name',$name)->find();
         $this->download_header($filename);
 
-        $objPHPExcel = new PHPExcel();
+        $objPHPExcel = new \PHPExcel();
         if (!$teacher) {
             return msg("",9,"查无此辅导员");
         }
