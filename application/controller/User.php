@@ -27,7 +27,15 @@ class User extends Controller
         $this->Stumodel = new StuModel();
         $this->Teachermodel = new TeacherModel();
     }
-    
+    public function test()
+    {
+        $studentInfo = new Ldap($_POST['studentId'],$_POST['password']);
+        $res = $studentInfo->run();
+        var_dump($studentInfo);
+        var_dump($res);
+    }
+
+
     public function login()
     {
         if(!empty($_SESSION['name'])) {
@@ -44,7 +52,6 @@ class User extends Controller
             return msg('',7,'');
         }
         $studentInfo = new Ldap($_POST['studentId'],$_POST['password']);
-
         $res = $studentInfo->run();
         if ($res['errcode']) {
             $result = $this->Stumodel->where('stu_id',$_POST['studentId'])->find(); //认证成功返回
@@ -78,6 +85,11 @@ class User extends Controller
         session_destroy();
         unset($_SESSION['name']);
         unset($_SESSION['admin']);
+    }
+
+    public function test()
+    {
+
     }
 
 
