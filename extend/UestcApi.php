@@ -35,7 +35,8 @@ class UestcApi
             CURLOPT_URL => $url,
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_HEADER => 1,
-            CURLINFO_HEADER_OUT => true
+            CURLINFO_HEADER_OUT => true,
+            CURLOPT_USERAGENT => "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50"
         );
 
         curl_setopt($curl, CURLOPT_COOKIE, $cookieString);
@@ -76,7 +77,8 @@ class UestcApi
             CURLOPT_AUTOREFERER,
             CURLOPT_FOLLOWLOCATION,
             CURLOPT_HEADER => 1,
-            CURLOPT_COOKIE => $cookieString
+            CURLOPT_COOKIE => $cookieString,
+            CURLOPT_USERAGENT => "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50"
         );
         curl_setopt_array($curl, $options);
         $result = curl_exec($curl);
@@ -138,11 +140,63 @@ class UestcApi
             $errMsg = "认证失败";
         }
         $return = array(
+            "auth" => $auth,
             "return" => msg($auth, $errCode, $errMsg),
             "cookieString" => $postResult["cookie_string"]
         );
-        return $return;
+        return $judge;
     }
+    /**
+     * 用于获取学生的基本信息
+     * @author RioChen
+     * @todo 用静态html初步测试结束，需要放入整个程序中运行，记得考虑出现第一次请求无法获取正常信息的情况（将之前的用户踢出）
+     */
+    public function getBasicInfo(string $cookieString)
+    {
+
+        $html = new simple_html_dom();
+        $html->load_file("a.html");
+        $td = $html->find('table.infoTable td[!class]');           //过滤掉含有img标签的td
+        $info = array();
+        foreach ($td as $value) {
+            $plainText = $value->plaintext;
+            $plainText = str_replace("：", "", $plainText);
+            $info[] = $plainText;
+        }
+        $result = array(
+            "studentId" => $info[0],
+            "studentName" => $info[1],
+            "studentEnglishName" => $info[3],
+            "sex" => $info[4],
+            "degree" => $info[7],
+            "academy" => $info[10],
+            "major" => $info[11],
+            "enterTime" => $info[13],
+            "endTime" => $info[14],
+            "school" => $info[22],
+            "phoneNumber" => $info[25],
+            "address" => $info[26]
+        );
+        return json_encode($result, JSON_UNESCAPED_UNICODE);
+    }
+    /**
+     * 用于对用户的密码进行加密
+     * @author RioChen
+     * @todo 
+     */
+    function encrypt()
+    {
+
+    }
+    /**
+     * 用于对用户的密码进行解密
+     * @author RioChen
+     * @todo 
+     */
+     function decrypt()
+     {
+         
+     } 
 }
 
 ?>

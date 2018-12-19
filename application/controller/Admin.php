@@ -36,7 +36,7 @@ class Admin extends Controller
     public function teacher()
     {
 
-        if(!isset($_SESSION['admin'])) {
+        if(empty($_SESSION['admin'])) {
             return msg('',2,'非法操作或未登录');
         }
 
@@ -72,7 +72,7 @@ class Admin extends Controller
 
     public function teachers()
     {
-        if(!isset($_SESSION['admin'])) {
+        if(empty($_SESSION['admin'])) {
             return msg('',3,'非法操作或未登录');
         }
 
@@ -82,7 +82,7 @@ class Admin extends Controller
 
     public function downloads()
     {
-        if(!isset($_SESSION['admin'])) {
+        if(empty($_SESSION['admin'])) {
             return msg('',3,'非法操作或未登录');
         }
         $filename = "辅导员评测结果统计";
@@ -124,7 +124,7 @@ class Admin extends Controller
 
     public function download()
     {
-        if(!isset($_SESSION['admin'])) {
+        if(empty($_SESSION['admin'])) {
             return msg('',2,'非法操作或未登录');
         }
         if (!isset($_GET['teacher'])) {

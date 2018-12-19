@@ -9,7 +9,6 @@
 
 namespace app\controller;
 
-
 header('Access-Control-Allow-Methods:POST,GET');
 header('Access-Control-Allow-Headers:DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type');
 
@@ -31,12 +30,12 @@ class User extends Controller
 
     public function login()
     {
-        if(isset($_SESSION['name'])) {
+        if(!empty($_SESSION['name'])) {
             return msg('',1,'该用户已经登录');
         }
-    if(isset($_SESSION['admin']))
+    if(!empty($_SESSION['admin']))
         return msg('',7,'');
-        if (!isset($_POST['studentId']) || !isset($_POST['password'])) {
+        if (empty($_POST['studentId']) || empty($_POST['password'])) {
             return msg('',101,'参数不完全');
         }
 
@@ -44,9 +43,10 @@ class User extends Controller
             $_SESSION['admin'] = 'admin';
             return msg('',7,'');
         }
-        $studentInfo = new UestcApi($_POST['studentId'],$_POST['password']);//传入用户名和密码返回
-        $res = $studentInfo->getAuth();
-        if ($res) {
+        $studentInfo = new Ldap($_POST['studentId'],$_POST['password']);
+
+        $res = $studentInfo->run();
+        if ($res['errcode']) {
             $result = $this->Stumodel->where('stu_id',$_POST['studentId'])->find(); //认证成功返回
             if (!$result) {
                return msg("",10,"查无此人");
@@ -64,9 +64,9 @@ class User extends Controller
     }
     public function check()
     {
-        if(isset($_SESSION['name']))
+        if(!empty($_SESSION['name']))
             return msg('',1,'该用户已经登录');
-        elseif(isset($_SESSION['admin']))
+        elseif(!empty($_SESSION['admin']))
             return msg('',7,'该管理员已登录');
         else
             return msg('',0,'未登录');
@@ -75,11 +75,13 @@ class User extends Controller
     public function logout()
     {
         session_destroy();
+        unset($_SESSION['name']);
+        unset($_SESSION['admin']);
     }
 
     public function remains()
     {
-        if(!isset($_SESSION['name'])) {
+        if(empty($_SESSION['name'])) {
             return msg('',2,'该用户未登录');
         }
 
@@ -111,11 +113,11 @@ class User extends Controller
     public function store()
     {
 
-        if(!isset($_SESSION['name'])) {
+        if(empty($_SESSION['name'])) {
             return msg('',2,'该用户未登录');
         }
 
-        if(!isset($_POST['teacher'])) {
+        if(empty($_POST['teacher'])) {
             return msg('',101,'参数不完全');
         }
 
@@ -133,7 +135,7 @@ class User extends Controller
         }
         $ques_all = 0;
         for ($i=1; $i <= 10; $i++) {
-            if (!isset($_POST["ques_$i"])) {
+            if (empty($_POST["ques_$i"])) {
                 return msg('',101,'参数不完全');
             }
             $student["ques_$i"] = $_POST["ques_$i"];
