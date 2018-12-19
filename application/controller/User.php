@@ -27,13 +27,7 @@ class User extends Controller
         $this->Stumodel = new StuModel();
         $this->Teachermodel = new TeacherModel();
     }
-    public function test()
-    {
-        $studentInfo = new Ldap($_POST['studentId'],$_POST['password']);
-        $res = $studentInfo->run();
-        var_dump($res);
-    }
-
+    
     public function login()
     {
         if(!empty($_SESSION['name'])) {
