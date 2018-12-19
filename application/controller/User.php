@@ -86,14 +86,7 @@ class User extends Controller
         unset($_SESSION['name']);
         unset($_SESSION['admin']);
     }
-
-    public function test()
-    {
-
-    }
-
-
-
+    
     public function remains()
     {
         if(empty($_SESSION['name'])) {
