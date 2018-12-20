@@ -87,7 +87,7 @@ class User extends Controller
             return msg('',2,'该用户未登录');
         }
 
-        $stu = $this->Stumodel->where('stu_id',$_SESSION['stu_id']])->where('if_done',0)->find();
+        $stu = $this->Stumodel->where('stu_id',$_SESSION['stu_id'])->where('if_done',0)->find();
         if (!$stu) {
             return msg('',5,'该用户已经评测完所有项目');
         }
