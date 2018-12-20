@@ -51,7 +51,7 @@ class User extends Controller
                return msg("",10,"查无此人");
             }
             $_SESSION['name'] = $result['name'];
-            $_SESSION['stu_id'] = $_POST['studentId']；
+            $_SESSION['stu_id'] = $_POST['studentId'];
             $data = [
                 'stu_name'      => $result['name'],
                 'teacher_name'  => $result['teacher_name'];
