@@ -51,6 +51,7 @@ class User extends Controller
                return msg("",10,"查无此人");
             }
             $_SESSION['name'] = $result['name'];
+            $_SESSION['stu_id'] = $_POST['studentId']；
             $data = [
                 'stu_name'      => $result['name'],
                 'teacher_name'  => $result['teacher_name']
@@ -77,6 +78,7 @@ class User extends Controller
         session_destroy();
         unset($_SESSION['name']);
         unset($_SESSION['admin']);
+        unset($_SESSION['stu_id']);
     }
 
     public function remains()
@@ -85,12 +87,12 @@ class User extends Controller
             return msg('',2,'该用户未登录');
         }
 
-        $stu = $this->Stumodel->where('name',$_SESSION['name'])->where('if_done',0)->find();
+        $stu = $this->Stumodel->where('stu_id',$_SESSION['stu_id']])->where('if_done',0)->find();
         if (!$stu) {
             return msg('',5,'该用户已经评测完所有项目');
         }
 
-        $student = $this->Stumodel->where('name',$_SESSION['name'])->select();
+        $student = $this->Stumodel->where('stu_id',$_SESSION['stu_id'])->select();
         $teacher_finished = [];
         $teacher_unfinished = [];
         foreach ($student as $stu) {
@@ -121,7 +123,7 @@ class User extends Controller
             return msg('',101,'参数不完全');
         }
 
-        $student = $this->Stumodel->where('name',$_SESSION['name'])->where('teacher_name',$_POST['teacher'])->find();
+        $student = $this->Stumodel->where('stu_id',$_SESSION['stu_id'])->where('teacher_name',$_POST['teacher'])->find();
         if (!$student) {
             return msg('',11,'不能评测');
         }
