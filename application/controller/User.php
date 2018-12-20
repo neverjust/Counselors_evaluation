@@ -54,7 +54,7 @@ class User extends Controller
             $_SESSION['stu_id'] = $_POST['studentId'];
             $data = [
                 'stu_name'      => $result['name'],
-                'teacher_name'  => $result['teacher_name'];
+                'teacher_name'  => $result['teacher_name']
             ];
             return msg($data,0,"");
         }
