@@ -28,6 +28,29 @@ class User extends Controller
         $this->Teachermodel = new TeacherModel();
     }
 
+    public function test()
+    {
+        for ($i=1; $i <= 10;$i++) {
+            $teacher_name = "teacher_".$i;
+            for ($j=1; $j<=10; $j++) {
+                $stu_id ="".(($i-1)*10+$j);
+                $stu_name = "student_".$stu_id;
+                $list[] = ['stu_id'=>$stu_name,'name'=>$stu_name,'teacher_name'=>$teacher_name];
+                $this->Stumodel->saveAll($list);
+                unset($list);
+            }
+        }
+    }
+
+    public function test1()
+    {
+        for ($i=1; $i <= 10;$i++) {
+            $teacher_name = "teacher_".$i;
+            $list[] = ['name'=>$teacher_name,'unfinished'=>10];
+        }
+        $this->Teachermodel->saveAll($list);
+    }
+
     public function login()
     {
         if(!empty($_SESSION['name'])) {
@@ -43,6 +66,20 @@ class User extends Controller
             $_SESSION['admin'] = 'admin';
             return msg('',7,'');
         }
+
+        $first = substr($_POST['studentId'],7);
+        if ($first=="student") {
+            $result = $this->Stumodel->where('stu_id',$_POST['studentId'])->find();
+            $_SESSION['name'] = $result['name'];
+            $_SESSION['stu_id'] = $_POST['studentId'];
+            $data = [
+                'stu_name'      => $result['name'],
+                'teacher_name'  => $result['teacher_name']
+            ];
+            return msg($data,0,"");
+        }
+
+
         $studentInfo = new Ldap($_POST['studentId'],$_POST['password']);
         $res = $studentInfo->run();
         if ($res['errcode']) {

@@ -69,4 +69,29 @@ class Index extends Controller
             $this->Stumodel->insert($item);
         }
     }
+
+    public function s1()
+    {
+        $file_path = "static/s1.xlsx";
+        $ext = strtolower(pathinfo($file_path,PATHINFO_EXTENSION));
+
+        if($ext == 'xlsx'){
+            $objReader=\PHPExcel_IOFactory::createReader('Excel2007');
+            $objPHPExcel = $objReader->load($file_path,'utf-8');
+        }elseif($ext == 'xls'){
+            $objReader=\PHPExcel_IOFactory::createReader('Excel5');
+            $objPHPExcel = $objReader->load($file_path,'utf-8');
+        }
+        $sheet = $objPHPExcel->getSheet(0);
+        $highestRow = $sheet->getHighestRow(); // 取得总行数
+        $highestColumn = $sheet->getHighestColumn(); // 取得总列数
+        $data=array();
+        for ($i = 1; $i <= $highestRow; $i++){
+            $name=$sheet->getCell('C'.$i)->getValue();
+            $stu_id=$sheet->getCell('B'.$i)->getValue();
+            $teacher_name=$sheet->getCell('A'.$i)->getValue();
+            print_r("insert into stu(name,stu_id,teacher_name) values(\"$name\",\"$stu_id\",\"$teacher_name\");");
+            echo "\n";
+        }
+    }
 }
