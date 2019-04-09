@@ -96,10 +96,11 @@ class User extends Controller
             return msg($data,0,"");
         }
         else {
-            return msg("",6,"账号密码错误");
+            return msg($first,6,"账号密码错误");
         }
+        return msg($first,6,"账号密码错误");
     }
-
+    
     public function check()
     {
         if(!empty($_SESSION['name']))
