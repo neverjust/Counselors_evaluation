@@ -67,7 +67,7 @@ class User extends Controller
             return msg('',7,'');
         }
 
-        $first = substr($_POST['studentId'],7);
+        $first = substr($_POST['studentId'],0,7);
         if ($first=="student") {
             $result = $this->Stumodel->where('stu_id',$_POST['studentId'])->find();
             $_SESSION['name'] = $result['name'];
@@ -78,8 +78,7 @@ class User extends Controller
             ];
             return msg($data,0,"");
         }
-
-
+        
         $studentInfo = new Ldap($_POST['studentId'],$_POST['password']);
         $res = $studentInfo->run();
         if ($res['errcode']) {
